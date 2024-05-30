@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/styleon.css' %}">
+{% endblock %}
+{% block title %}Book Collection{% endblock title %}
+{% block content %}
+<nav>
+    <div class="logo">
+        <a href="/online/f/1">
+            <img src="{% static 'img/component1.png' %}" , width="200px">
+        </a>
+    </div>
+
+    <div class="search">
+        <form method="GET" action="{% url 'searchon' %}">
+            <input type="text" id="search" name="quest" value="{{query}}" placeholder="Cari di BookSelv">
+            <button class="spy" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+    </div>
+
+    <div class="nav-right">
+        {% if user.is_authenticated %}
+        <div class="logged">
+            <a href="{% url 'userpanel' %}" style="margin-right: 1rem; display: flex;">{{ user.username }}<i class="fa-solid fa-circle-user" style="margin-top: .3rem; margin-left: .3rem;"></i></a>
+            <a href="{% url 'logoutusr' %}"><i class="fa-solid fa-right-from-bracket"></i></a>
+        </div>
+        {% else %}
+        <a href="{% url 'loginusr' %}" class="log">Login</a>
+        <a href="{% url 'register' %}" class="reg">Register</a>
+        {% endif %}
+
+    </div>
+</nav>
+<div class="alls">
+    <div class="tablecar">
+        {% for i in infolder %}
+        <div class="cardcover">
+            <a href="/online/f/{{i.id}}">
+                <div class="card" style="width: 11rem;">
+                    <img class="card-img-top" src="{% static 'img/shelf.png' %}" alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-title">{{i.folder_name}}</p>
+                        <br> <br>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+
+        {% for i in infile %}
+        <div class="cardcover">
+            <a href="{% url 'view_pdf' file_id=i.id %}" target="_new">
+                <div class="card" style="width: 11rem;">
+                    <img class="card-img-top" src="{{i.img.url}}" alt="{{i.filename}}">
+                    <div class="card-body">
+                        <p class="card-title">{{i.filename}}</p>
+                        <div class="downbtn">
+                            <a href="{% url 'download' pk=i.id %}"><i class="fa-solid fa-file-arrow-down"></i></a>
+                        </div>
+
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</div>
+{% endblock content %}

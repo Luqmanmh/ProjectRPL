@@ -1,0 +1,153 @@
+@import url("https://fonts.googleapis.com/css2?family-Poppins:wght@300;400;500;600;700;800;900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body{
+    min-height: 100vh;
+    background-image: url(/static/img/bg2.png);
+    background-size: cover;
+    background-position: center;
+}
+
+nav{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 25px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.nav-right{
+    display: flex;
+    justify-content: space-between;
+    margin-right: .6rem;
+}
+
+#search{
+    width: 40rem;
+    height: 40px;
+    border-style: solid;
+    border: #9CA3B5,;
+    border-radius: 10px;
+    text-align: left;
+    padding-left: 20px;
+    padding-right: 10px;
+    font-size: 15px;
+}
+
+a{
+    text-decoration: none;
+    font-family: "Poppins", sans-serif;
+    font-weight: 750;
+    color: black;
+}
+
+.logged{
+    height: 35px;
+    width: 100px;
+    display: flex;
+}
+
+.log{
+    border-color: #761EAE;
+    border: 2px;
+    border-style: solid;
+    background-color: white;
+    border-radius: 10px;
+    height: 35px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.reg{
+    color: white;
+    border-radius: 10px;
+    background-color: #761EAE;
+    height: 35px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search button {
+    background-color: transparent;
+    border: none;
+    margin-left: -2rem;
+}
+
+tr td:first-child {
+    display: inline-block;
+    width: 20rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+tr td:last-child {
+    text-align:center;
+}
+
+.left {
+    width: 80%;
+}
+
+.maintable {
+    width: 60rem;
+}
+
+.tablecar {
+    display: flex;
+    width: 80%;
+    margin: 5rem auto;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.card-img-top {
+    width: 10.9rem;
+    height: 11rem;
+    object-fit: cover;
+}
+
+.cardcover {
+    margin: 0 1rem 2rem 1rem;
+}
+
+label{
+    width: 30%;
+    margin-left: -5rem;
+    margin-bottom: 5px;
+}
+
+.card-title{
+    display: inline-block;
+    width: 9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.downbtn {
+    text-align: right;
+}
+
+
+i:hover{
+    transform: scale(1.1);
+}
+
+i {
+    transition: transform 0.2s;
+}

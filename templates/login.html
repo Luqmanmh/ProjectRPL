@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+{% block title %}Login Page{% endblock title %}
+
+{% block content %}
+<nav>
+    <a href="" class="logo">
+        <img src="{% static 'img/bs1.png' %}" width="20%">
+        <h3>BookSelv</h3>
+    </a>
+</nav>
+<div class="container">
+    <h3 class="title">User Login</h3>
+    <form action="{% url 'loginusr' %}" method="POST">
+        {% csrf_token %}
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username">
+        <br> <br>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password">
+        <br> <br>
+        <div class="submit">
+            <input id="login" type="submit" value="Login">
+            
+            <div class="bottom">
+                <div class="bot-left">
+                    <a href="{% url 'loginadm' %}">Librarian login</a>
+                </div>
+                <div class="bot-mid">|</div>
+                <div class="bot-right">
+                    <a href="{% url 'register' %}">register</a>
+                </div>
+            </div>
+        </div>
+        </div>
+    </form>
+</div>
+
+{% endblock content %}

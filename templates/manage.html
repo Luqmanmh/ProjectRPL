@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/stylemng.css' %}">
+{% endblock %}
+{% block title %}Manage{% endblock title %}
+{% block content %}
+
+<nav>
+    <div class="logo">
+        <a href="/manage/f/1">
+            <img src="{% static 'img/component1.png' %}" , width="200px">
+        </a>
+    </div>
+
+    <div class="search">
+        <form method="GET" action="{% url 'search' %}">
+            <input type="text" id="search" name="quest" value="{{query}}" placeholder="Cari di BookSelv">
+            <button class="spy" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+    </div>
+
+    <div class="nav-right">
+        {% if user.is_authenticated %}
+        <div class="logged">
+            <p style="margin-right: .7rem;">{{ user.username }}</p>
+            <a href="{% url 'logoutusr' %}"><i class="fa-solid fa-right-from-bracket"></i></a>
+        </div>
+
+        {% else %}
+        <a href="{% url 'loginusr' %}" class="log">Login</a>
+        <a href="{% url 'register' %}" class="reg">Register</a>
+        {% endif %}
+
+    </div>
+</nav>
+
+<div id="overlay" class="overlay"></div>
+
+<div>
+    <div class="alls">
+        <div class="ups">
+            <div class="inform">
+                <button type="button" class="open-filein" data-target="#fileform"><i class="fa-solid fa-file-arrow-up"></i></button>
+
+                <div class="popform" id="fileform">
+                    <div class="btn_cancel">
+                        <button type="button" class="btn_cancel" data-target="#fileform">X</button>
+                    </div>
+                    <form action="/uploadfile/{{ root }}" method="POST" class="form-container" enctype="multipart/form-data" style="text-align: center;">
+                        {% csrf_token %}
+
+                        <br>
+                        {{ form.file }}
+                        <br><br>
+                        <input type="submit">
+
+                    </form>
+                    
+                </div>
+            </div>
+            <div class="folderin">
+                <button type="button" class="open-filein" data-target="#folderform"><i class="fa-solid fa-folder-plus"></i></button>
+
+                <div class="popform" id="folderform">
+                    <div class="btn_cancel">
+                        <button type="button" class="btn_cancel" data-target="#folderform">X</button>
+                    </div>
+                    <form action="/createfolder/{{ root }}" method="POST" class="form-container"
+                        enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <label for="foldname">Enter Folder Name</label>
+                        <input type="text" name="foldname" id="foldname">
+
+                        <input type="submit">
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <table class="maintable">
+            <tr>
+
+                <th>Name</th>
+                <th>Size</th>
+                <th>date added</th>
+                <th></th>
+
+            </tr>
+
+            {% for i in infolder %}
+
+            <tr>
+                <td><a href="/manage/f/{{i.id}}">{{i.folder_name}}</a></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <div class="filechange">
+                        <a class="open-filein" data-target="#updfold{{i.id}}"><i
+                                class="fa-solid fa-pen-to-square"></i></a> | <a href="{% url 'deletefold' pk=i.id %}">
+                            <i class="fa-solid fa-circle-xmark"></i></a>
+                        <div class="popform" id="updfold{{i.id}}">
+                            <div class="btn_cancel">
+                                <button type="button" class="btn_cancel" data-target="#updfold{{i.id}}">X</button>
+                            </div>
+                            <form action="{% url 'move' type='folder' pk=i.id %}" method="POST" class="form-container"
+                                enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <label for="newname">Name</label>
+                                <input type="text" name="newname" id="newname" value="{{i.folder_name}}"> <br> <br>
+                                <label for="newfk">Root Folder</label>
+                                <select name="newfk" id="newfk">
+                                    {% for j in allfold %}
+                                    {% if j.id != i.id %}
+                                    <option value="{{j.id}}" {% if j.id == i.id %} selected {% endif %}>{{j.folder_name}}
+                                    </option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select> <br> <br>
+                                <div style="text-align: center;">
+                                    <input type="submit">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            {% endfor %}
+
+            {% for i in infile %}
+
+            <tr>
+                <td>
+                    <p>{{i.filename}}</p>
+                </td>
+                <td>{{i.size|filesizeformat}}</td>
+                <td>{{i.upload_date}}</td>
+                <td>
+                    <div class="filechange">
+                        <a class="open-filein" data-target="#updfile{{i.id}}"><i
+                                class="fa-solid fa-arrows-up-down-left-right"></i></a> | <a
+                            href="{% url 'deletefile' pk=i.id %}"><i class="fa-solid fa-circle-xmark"></i></a> | <a
+                            href="{% url 'download' pk=i.id %}"><i class="fa-solid fa-file-arrow-down"></i></a>
+                        <div class="popform" id="updfile{{i.id}}">
+                            <div class="btn_cancel">
+                                <button type="button" class="btn_cancel" data-target="#updfile{{i.id}}">X</button>
+                            </div>
+                            <form action="{% url 'move' type='file' pk=i.id %}" method="POST" class="form-container"
+                                enctype="multipart/form-data">
+                                {% csrf_token %}
+
+                                <input type="hidden" name="newname" id="newname" value="{{i.filename}}">
+                                <label for="newfk">Root Folder:</label>
+                                <select name="newfk" id="newfk">
+                                    {% for j in allfold %}
+                                    <option value="{{j.id}}">{{j.folder_name}}</option>
+                                    {% endfor %}
+                                </select>
+                                <br><br>
+                                <div style="text-align: center;">
+                                    <input type="submit">
+                                </div>
+
+
+                            </form>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+    </div>
+</div>
+{% endblock content %}
+{% block script %}
+<script>
+    const btns = document.querySelectorAll("[data-target]");
+    const cls_btns = document.querySelectorAll(".btn_cancel");
+    const overlay = document.getElementById("overlay");
+
+    btns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            document.querySelector(btn.dataset.target).classList.add("active");
+            if (overlay.className === "overlay") {
+                overlay.className += "active";
+            }
+        });
+    });
+
+    cls_btns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            document.querySelector(btn.dataset.target).classList.remove("active");
+            overlay.className = "overlay";
+        });
+    });
+</script>
+{% endblock %}

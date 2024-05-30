@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock %}
+{% block title %}Register{% endblock title %}
+{% block content %}
+<nav>
+    <a href="" class="logo">
+        <img src="{% static 'img/bs1.png' %}" width="20%">
+        <h3>BookSelv</h3>
+    </a>
+</nav>
+<div class="container">
+    <h3 class="title">Register</h3>
+    <form action="{% url 'register' %}" method="POST">
+        {% csrf_token %}
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username">
+        <br>
+        <label for="cemail">E-mail</label>
+        <input type="email" name="cemail" id="cemail">
+        <br>
+        <label for="cpass1">Password</label>
+        <input type="password" id="cpass1" name="cpass1">
+        <br>
+        <label for="cpass2"> Reconfirm Password</label>
+        <input type="password" id="cpass2" name="cpass2">
+        <br>
+        <div class="submit">
+            <input id="register" type="submit" value="Register">
+        </div>
+    </form>
+</div>
+
+{% endblock content %}
